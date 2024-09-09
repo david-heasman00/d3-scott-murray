@@ -1,0 +1,76 @@
+<!--Testing how to draw svg elements. Should be a simple circle--->
+<h3>Here is a blue circle</h3>
+<svg width = "500" height = "50">
+	<circle cx="25" cy="25" r="22" fill="blue" stroke="gray" stroke-width="2"/>
+</svg>
+
+<!--Lets draw a rectangle, but see if it'll overlay the circle with absolute positoning-->
+<h3> Here is a rectangle.</h3>
+<p>Because I contained in its own svg block it doesn't interfere with the circle above</p>
+<svg width = "500" height = "50">
+	<rect x="0" y="0" width="500" height="50"/>
+</svg>
+
+<!-- a new circle but positioned in the centre -->
+<h3>Here is a circle that is centered</h3>
+<svg width = "500" height = "50">
+	<circle cx="250" cy="25" r="25"/>
+</svg>
+
+<!-- Playing with ellipses -->
+<h3>Ellipse me baby</h3>
+<svg width = "500" height = "50">
+	<ellipse cx="250" cy="25" rx="100" ry="25"/>
+</svg>
+
+<!-- Making a diagonal line -->
+<h3>Line me up dude</h3>
+<svg width = "500" height = "50">
+	<line x1="0" y1="50" x2="500" y2="0" stroke="black"/> 
+</svg>
+
+<!-- Starting to colour and set opacities -->
+<h3>We can change the colour and "stroke" of our elements</h3>
+<svg width = "500" height = "50">
+	<circle cx="25" cy="25" r="22" fill="blue" stroke="green" stroke-width="5"/>
+</svg>
+
+<h3>It's a piece of cake to do this with css too</h3>
+<style>
+	.pumpkin {
+		fill: yellow;
+		stroke: orange;
+		stroke-width:5;
+	}
+</style>
+
+<svg width = "500" height = "50">
+	<circle cx="25" cy="25" r="22" class="pumpkin"/>
+</svg>
+
+<!--Understanding order in svg-->
+<h3>In SVG there is no "z index". Shapes overlap in the orders they're drawn. The first thing drawn is at the back, and the last thing drawn is at the front. Just like painting in irl.</h3>
+<svg width = "500" height = "50">
+	<rect x="0" y="0" width="30" height="30" fill="purple"/> 
+	<rect x="20" y="5" width="30" height="30" fill="blue"/> 
+	<rect x="40" y="10" width="30" height="30" fill="green"/> 
+	<rect x="60" y="15" width="30" height="30" fill="yellow"/> 
+	<rect x="80" y="20" width="30" height="30" fill="red"/>
+</svg>
+
+<!-- Moving onto transparencty -->
+<h3>SVG has an alpha element in the rgb space for transparancy</h3>
+<svg width = "500" height = "50">
+	<circle cx = "25" cy="25" r="20" fill="rgba(128, 0, 128, 1.0"/>
+	<circle cx = "50" cy="25" r="20" fill="rgba(0, 0, 255, 0.75"/>
+	<circle cx = "75" cy="25" r="20" fill="rgba(0, 255, 0, 0.5"/>
+	<circle cx = "100" cy="25" r="20" fill="rgba(255, 255, 0, 0.25"/>
+	<circle cx = "125" cy="25" r="20" fill="rgba(255, 0, 0, 0.1"/>
+</svg>
+
+<h3>And its applied to stroke and width independently. The results are... weird</h3>
+<svg width = "500" height = "50">
+	<circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25" stroke-width="10"/>
+	<circle cx="75" cy="25" r="20" fill="rgba(0, 255, 0, 0.75)" stroke="rgba(0, 0, 255, 0.25" stroke-width="10"/>
+	<circle cx="125" cy="25" r="20" fill="rgba(255, 255, 0, 0.75)" stroke="rgba(255, 0, 0, 0.25" stroke-width="10"/>
+</svg>

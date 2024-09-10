@@ -39,7 +39,9 @@
 				.attr("height", function(d) {
 					return d * 4; //Part 2 in inverting the bars to be above the x axis
 				})
-				.attr("fill", "teal");
+				.attr("fill", function(d) {
+					return "rgb(" + Math.round(d*20) + ", 0, 0)";
+				});
 		</script>
 	</body>
 </html>

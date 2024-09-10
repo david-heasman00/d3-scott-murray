@@ -30,10 +30,10 @@
 				.enter()
 				.append("rect")
 				.attr("x", function(d, i){ //tweaks x value with a function so it doesn't overlap
-					return i * (w / dataset.length - barPadding); //Bar width tied to size of svg width and dataset
+					return i * (w / dataset.length); //Bar width tied to size of svg width and dataset
 				})
 				.attr("y", 0)
-				.attr("width", 20)
+				.attr("width", w / dataset.length - barPadding)
 				.attr("height", 100);
 		</script>
 	</body>

@@ -34,7 +34,9 @@
 				})
 				.attr("y", 0)
 				.attr("width", w / dataset.length - barPadding)
-				.attr("height", 100);
+				.attr("height", function(d) {
+					return d;
+				});
 		</script>
 	</body>
 </html>

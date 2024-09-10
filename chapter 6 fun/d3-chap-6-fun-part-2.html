@@ -39,9 +39,30 @@
 				.attr("height", function(d) {
 					return d * 4; //Part 2 in inverting the bars to be above the x axis
 				})
+				//Encode colour to the bars
 				.attr("fill", function(d) {
 					return "rgb(" + Math.round(d*20) + ", 0, 0)";
 				});
+
+			//Add text to the bars
+			svg.selectAll("text")
+				.data(dataset)
+				.enter()
+				.append("text")
+				.text(function (d) {
+					return d;
+				})
+				//set the x and y position of the text to be above the bars
+				.attr("x", function(d, i){ 
+					return i * (w / dataset.length) + (w / dataset.length - barPadding) /2;
+				})
+				.attr("y", function(d) {
+					return h - (d * 4) + 14;
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "11px")
+				.attr("fill", "white")
+				.attr("text-anchor", "middle");
 		</script>
 	</body>
 </html>

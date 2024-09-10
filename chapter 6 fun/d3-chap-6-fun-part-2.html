@@ -33,12 +33,13 @@
 					return i * (w / dataset.length); //Bar width tied to size of svg width and dataset
 				})
 				.attr("y", function(d) {
-					return h - (d*4); //Height minus data value as part 1 in inverting the bars to be above the x axis
+					return h - (d * 4); //Height minus data value as part 1 in inverting the bars to be above the x axis
 				})
 				.attr("width", w / dataset.length - barPadding)
 				.attr("height", function(d) {
 					return d * 4; //Part 2 in inverting the bars to be above the x axis
-				});
+				})
+				.attr("fill", "teal");
 		</script>
 	</body>
 </html>

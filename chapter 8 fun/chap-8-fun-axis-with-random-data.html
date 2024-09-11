@@ -38,20 +38,16 @@
                         .attr("width", w)
                         .attr("height",h);
 
-            //Scatterplot dataset
-            var dataset = [
-                            [5, 20], 
-                            [480, 90], 
-                            [250, 50], 
-                            [100, 33], 
-                            [330, 95],
-                            [410, 12], 
-                            [475, 44], 
-                            [25, 67], 
-                            [85, 21], 
-                            [220, 88],
-                            [600, 150]
-                          ];
+            //Randomised Scatterplot dataset
+            var dataset = [];
+            var numDataPoints = 50;
+            var xRange = Math.random() * 1000;
+            var yRange = Math.random() * 1000;
+            for (var i = 0; i < numDataPoints; i++) {
+                var newNumber1 = Math.floor(Math.random() * xRange);
+                var newNumber2 = Math.floor(Math.random() * yRange);
+                dataset.push([newNumber1, newNumber2]);
+            };
 
             //Create scale functions
             var xScale = d3.scaleLinear()
@@ -66,15 +62,19 @@
                             .domain([0, d3.max(dataset, function(d) {return d[1]; })])
                             .range([0,10]);
 
+            var formatAsPercentage = d3.format(1);
+
             //Create x axis function
             var xAxis = d3.axisBottom()
                             .scale(xScale)
-                            .ticks(5); //Set rough #of ticks
+                            .ticks(5) //Set rough #of ticks
+                            .tickFormat(formatAsPercentage);
 
             //Create y axis function
             var yAxis = d3.axisLeft()
                             .scale(yScale)
-                            .ticks(5);
+                            .ticks(5)
+                            .tickFormat(formatAsPercentage);
 
             //Create circles for scatterplot
             svg.selectAll("circle")
@@ -93,6 +93,7 @@
                     return aScale(d[1]);
                 });
             //Adding labels
+            /*
             svg.selectAll("text")
                 .data(dataset)
                 .enter()
@@ -110,6 +111,7 @@
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "11px")
                 .attr("fill", "red");
+            */
 
         //Draw axes last so its on top. X axis first
             svg.append("g")

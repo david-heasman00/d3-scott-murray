@@ -30,8 +30,7 @@
             //Create svg space
             var w = 500;
             var h = 300;
-            var xPadding = 30;
-            var yPadding = 20;
+            var padding = 20;
 
             var svg = d3.select("body")
                         .append("svg")
@@ -56,11 +55,11 @@
             //Create scale functions
             var xScale = d3.scaleLinear()
                             .domain([0, d3.max(dataset, function(d) { return d[0]; })])
-                            .range([xPadding, w - xPadding * 2]);
+                            .range([padding, w - padding * 2]);
 
             var yScale = d3.scaleLinear()
                             .domain([0, d3.max(dataset, function(d) {return d[1]; })])
-                            .range([h - yPadding, yPadding]);
+                            .range([h - padding, padding]);
 
             var aScale = d3.scaleSqrt()
                             .domain([0, d3.max(dataset, function(d) {return d[1]; })])
@@ -69,12 +68,8 @@
             //Create x axis function
             var xAxis = d3.axisBottom()
                             .scale(xScale)
-                            .ticks(5); //Set rough #of ticks
-
-            //Create y axis function
-            var yAxis = d3.axisLeft()
-                            .scale(yScale)
-                            .ticks(5);
+                            .tickValues([0, 100, 250, 600]); //Set tick values manually for fun
+                            //.ticks(5); //Set rough #of ticks
 
             //Create circles for scatterplot
             svg.selectAll("circle")
@@ -111,17 +106,11 @@
                 .attr("font-size", "11px")
                 .attr("fill", "red");
 
-        //Draw axes last so its on top. X axis first
+        //Draw x axis last so its on top
             svg.append("g")
                 .attr("class", "axis") //Assign "axis" class
-                .attr("transform", "translate(0," + (h - yPadding) + ")")
+                .attr("transform", "translate(0," + (h - padding) + ")")
                 .call(xAxis);
-
-        //Draw y axis
-            svg.append("g")
-                .attr("class", "axis")
-                .attr("transform", "translate(" + xPadding + ",0)")
-                .call(yAxis);
 
         </script>
     </body>

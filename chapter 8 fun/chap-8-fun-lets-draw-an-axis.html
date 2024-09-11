@@ -45,6 +45,10 @@
                             .domain([0, d3.max(dataset, function(d) {return d[1]; })])
                             .range([0,10]);
 
+            //Create x axis function
+            var xAxis = d3.axisBottom()
+                            .scale(xScale);
+
             //Create circles for scatterplot
             svg.selectAll("circle")
                 .data(dataset)
@@ -79,6 +83,12 @@
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "11px")
                 .attr("fill", "red");
+
+        //Draw x axis last so its on top
+            svg.append("g")
+                .attr("class", "axis") //Assign "axis" class
+                .attr("transform", "translate(0," + (h - padding) + ")")
+                .call(xAxis);
 
         </script>
     </body>

@@ -44,7 +44,10 @@
                 .attr("cy", function(d){
                     return d[1];
                 })
-                .attr("r", 5);
+                //Set radius of circle to be pseudo-area of y co-ordinate (minus so those at top are larger because of inverted axis in svg)
+                .attr("r", function(d){
+                    return Math.sqrt(h - d[1]);
+                });
 
         </script>
     </body>

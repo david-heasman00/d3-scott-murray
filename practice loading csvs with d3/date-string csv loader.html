@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Load date string CSV</title>
+        <script type="text/javascript" src="d3.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            //declare empty global dataset
+            var dataset
+
+            //Parse Time function in DD/MM/YYYY format
+            var parseTime = d3.timeParse('%d/%m/%Y');
+
+            //row converter function to load date and string
+            var rowConverter = function(d) {
+                return {
+                    Date: parseTime(d.Date),
+                    Leader: d.Leader
+                };
+            }
+
+            //Load CSV and log to console
+            d3.csv("date-string.csv", rowConverter, function(data){
+                console.log(data);
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="d3.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            
+            //Width and height
+            var w = 500;
+            var h = 300;
+            var padding = 40;
+
+            //Declare dataset and scales as global datasets
+            var dataset, xScale, yScale; //Empty for now
+
+            //Convert strings to Dates
+            var parseTime = d3.timeParse("%d/%m/%Y");
+
+            //Function for converting CSV values from strings to Dates and numbers
+            var rowConverter = function(d) {
+                return {
+                    Date: parseTime(d.Date),
+                    Amount: parseInt(d.Amount)
+                };
+            };
+
+            //Load in the data
+            d3.csv("time_scale_data_uk.csv", rowConverter, function(data){
+
+                //Copy data into globaldataset
+                dataset = data;
+
+                //Create scale functions
+                xScale = d3.scaleTime()
+                            .domain([
+                                d3.min(dataset, function(d) { return d.Date; })
+                                d3.max(dataset, function(d) { return d.Date; })
+                                ])
+                            .range([padding, w - padding]);
+            });
+
+        </script>
+    </body>
+</html>

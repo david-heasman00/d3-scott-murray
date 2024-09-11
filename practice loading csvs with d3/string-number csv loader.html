@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Load string number CSV</title>
+        <script type="text/javascript" src="d3.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            //declare empty global dataset
+            var dataset
+
+            //row converter function to load string and number 
+            var rowConverter = function(d) {
+                return {
+                    Name: d.Name,
+                    'Number of Balls': parseFloat(d['Number of Balls'])
+                };
+            }
+
+            //Load CSV and log to console
+            d3.csv("string-number.csv", rowConverter, function(data){
+                console.log(data);
+            });
+        </script>
+    </body>
+</html>

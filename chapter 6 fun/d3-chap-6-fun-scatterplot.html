@@ -48,6 +48,25 @@
                 .attr("r", function(d){
                     return Math.sqrt(h - d[1]);
                 });
+            //Adding labels
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function (d){
+                    return d[0] + "," + d[1];   //gives co-ordinates of x,y as text
+                })
+                //Set positon of labels to be points
+                .attr("x", function(d){
+                    return d[0] + 3; //set x position of label to be 3 pixels to the right of dot
+                })
+                .attr("y", function(d){
+                    return d[1] -3; //set y position of label to be 3 pixels up of dot
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", "red");
+
 
         </script>
     </body>

@@ -4,6 +4,26 @@
         <meta charset="utf-8">
         <title>Making scale functions!</title>
         <script type="text/javascript" src="d3.js"></script>
+        <style type="text/css">
+            
+            /*Tweaking CSS rules of the axis for fun (its going to be ugly though!) */
+            /*Note these rules are specific to SVG. shape-rendering is an SVG attribute, not a css one*/
+            /*Commented it out because it was just for fun, boy it's ugly */
+            /*.axis path
+            .axis line {
+                stroke: teal;
+                shape-rendering: crispEdges;
+            }
+
+            .axis text {
+                font-family: Optima, Futura, sans-serif;
+                font-weight: bold;
+                font-size: 14px;
+                fill:teal;
+            }
+            */
+
+        </style>
     </head>
     <body>
         <script type="text/javascript">
@@ -47,7 +67,8 @@
 
             //Create x axis function
             var xAxis = d3.axisBottom()
-                            .scale(xScale);
+                            .scale(xScale)
+                            .ticks(5); //Set rough #of ticks
 
             //Create circles for scatterplot
             svg.selectAll("circle")

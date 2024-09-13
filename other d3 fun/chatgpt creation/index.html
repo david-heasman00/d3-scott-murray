@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Data Visualization</title>
+    <script src="d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .chart {
+            display: flex;
+            justify-content: center;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 5px;
+            background: lightgray;
+            border: 1px solid gray;
+            border-radius: 3px;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Insurance Charges vs. BMI</h1>
+    <div class="chart">
+        <svg width="800" height="600"></svg>
+    </div>
+    <div class="tooltip"></div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -54,8 +54,20 @@
 						.attr("width", w)
 						.attr("height", h);
 
+			//Create clipping path
+			svg.append("clipPath")				//Make a new clipPath
+				.attr("id", "chart-area")		//Assign an ID
+				.append("rect")					//Within clipPath, create a new rect
+				.attr("x", padding)				//Set rect's position and size
+				.attr("y", padding)
+				.attr("width", w - padding * 3)
+				.attr("height", h - padding * 2);
+
 			//Create circles
-			svg.selectAll("circle")
+			svg.append("g")								//create new g
+				.attr("id", "circles")					//Assign ID of "circles"
+				.attr("clip-path", "url(#chart-area)")	//Add reference to clip-path
+				.selectAll("circle")					//Continue as before
 			   .data(dataset)
 			   .enter()
 			   .append("circle")

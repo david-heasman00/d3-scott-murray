@@ -14,7 +14,7 @@
 
 		<script type="text/javascript">
 
-			//Width and height
+			//Width and height and original dataset
 			var w = 600;
 			var h = 250;
 			var barPadding = 1;
@@ -34,12 +34,14 @@
 							.domain([0, d3.max(dataset)])
 							.range([0, h]);
 
-			//Create SVG element
+			//Create SVG space
 			var svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
 
+
+			//Create original bars for bar chart
 			svg.selectAll("rect")
 			   .data(dataset)
 			   .enter()
@@ -58,6 +60,7 @@
 					return "rgb(0, 0, " + Math.round(d * 10) + ")";
 			   });
 
+			//Create original text labels for bar chart
 			svg.selectAll("text")
 			   .data(dataset)
 			   .enter()
@@ -76,43 +79,55 @@
 			   .attr("font-size", "11px")
 			   .attr("fill", "white");
 
-			//On click update with new data
 			
+			//On click update with new data
 
 			var animateDuration = 500;
 			d3.select("p")
 				.on("click", function() {
 
-					//New dataset values
-					var numValues = dataset.length; 							//Count original length of dataset
-					maxValue = 100												//Highest possible number in array
-					dataset = []; 												//Initialize empty array
-					for (var i = 0; i < numValues; i++) {						//Loop numValues times
-						var newNumber = Math.floor(Math.random() * maxValue); 	//New random integer 0-24
-						dataset.push(newNumber);								//Add new number to array
-					};
+					//Add one piece of new data
+					var maxValue = 25;
+					var newNumber = Math.floor(Math.random() * maxValue);
+					dataset.push(newNumber);
+				
 
-					//Update scale domain to new maxValue in dataset
+					//Update scale domains to new maxValue in dataset
+					xScale.domain(d3.range(dataset.length));
 					yScale.domain([0, d3.max(dataset)]);
 
-					//update all rects
-					svg.selectAll("rect")
-						.data(dataset)
-						.transition()
-						.delay(function(d, i) {
-							return i / dataset.length * 1000;
-						})
-						.duration(animateDuration)
-						.ease(d3.easeCubicInOut)
+					//Select and update
+					var bars = svg.selectAll("rect")
+									.data(dataset);
+
+					//Using enter and merge to update bars with new dataset
+					bars.enter()
+						.append("rect")
+						.attr("x", w)
 						.attr("y", function(d) {
 							return h - yScale(d);
 						})
+						.attr("width", xScale.bandwidth())
 						.attr("height", function(d) {
 							return yScale(d);
 						})
 						.attr("fill", function(d) {
-							return "rgb(0, 0, " + Math.round(d * 10) + ")"
+							return "rgb(0, 0, " + Math.round(d * 10) + ")";
+						})
+						.merge(bars) //update
+						.transition()
+						.duration(animateDuration)
+						.attr("x", function(d, i) {
+							return xScale(i);
+						})
+						.attr("y", function(d) {
+							return h - yScale(d);
+						})
+						.attr("width", xScale.bandwidth())
+						.attr("height", function(d) {
+							return yScale(d);
 						});
+
 
 					//update all labels
 					svg.selectAll("text")

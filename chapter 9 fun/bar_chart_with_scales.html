@@ -130,23 +130,33 @@
 
 
 					//update all labels
-					svg.selectAll("text")
-						.data(dataset)
-						.transition()
-						.delay(function(d, i) {
-							return i / dataset.length * 100;
-						})
-						.duration(animateDuration)
-						.ease(d3.easeCubicInOut)
-						.text(function(d) {
-							return d;
-						})
-						.attr("x", function(d, i) {
-			   				return xScale(i) + xScale.bandwidth() / 2;
-			   			})
-			   			.attr("y", function(d) {
-			   				return h - yScale(d) + 14;
-			   			})
+					var labels = svg.selectAll("text")
+										.data(dataset);
+
+					//Using enter to create new label
+					labels.enter()
+							.append("text")
+							.text(function(d) {
+								return d;
+							})
+							.attr("text-anchor", "middle")
+							.attr("x", w)
+							.attr("y", function(d) {
+								return h - yScale(d) + 14;
+							})
+							.attr("font-family", "sans-serif")
+			   				.attr("font-size", "11px")
+			   				.attr("fill", "white")
+							.merge(labels)
+							.transition()
+							.duration(animateDuration)
+							.attr("x", function(d, i) {
+								return xScale(i) + xScale.bandwidth() / 2;
+							})
+							.attr("y", function(d) {
+								return h - yScale(d) + 14;
+							});
+
 				})
 
 

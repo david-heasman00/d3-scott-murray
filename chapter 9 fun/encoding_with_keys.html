@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>My Personal Chapter 9 Bar Chart (practising removals)</title>
+		<script type="text/javascript" src="d3.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+	</head>
+	<body>
+
+		<p>Click on this text to remove a data value from the chart!</p>
+
+		<script type="text/javascript">
+
+			//Width and height and original dataset
+			var w = 600;
+			var h = 250;
+			var barPadding = 1;
+			
+			//Change dataset to be key and value
+			var dataset = [ { key: 0, value: 5 },		
+							{ key: 1, value: 10 },		
+							{ key: 2, value: 13 },
+							{ key: 3, value: 19 },
+							{ key: 4, value: 21 },
+							{ key: 5, value: 25 },
+							{ key: 6, value: 22 },
+							{ key: 7, value: 18 },
+							{ key: 8, value: 15 },
+							{ key: 9, value: 13 },
+							{ key: 10, value: 11 },
+							{ key: 11, value: 12 },
+							{ key: 12, value: 15 },
+							{ key: 13, value: 20 },
+							{ key: 14, value: 18 },
+							{ key: 15, value: 17 },
+							{ key: 16, value: 16 },
+							{ key: 17, value: 18 },
+							{ key: 18, value: 23 },
+							{ key: 19, value: 25 } ];
+			
+
+			//Create scales
+
+			var xScale = d3.scaleBand()
+							.domain(d3.range(dataset.length))
+							.rangeRound([0, w])
+							.paddingInner(0.05);
+
+			var yScale = d3.scaleLinear()
+							.domain([0, d3.max(dataset)])
+							.range([0, h]);
+
+			//Create SVG space
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+
+			//Create original bars for bar chart
+			svg.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i){
+			   		return xScale(i);
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale(d);
+			   })
+			   .attr("width", xScale.bandwidth())
+			   .attr("height", function(d) {
+			   		return yScale(d);
+			   })
+			   .attr("fill", function(d) {
+					return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			   });
+
+			//Create original text labels for bar chart
+			svg.selectAll("text")
+			   .data(dataset)
+			   .enter()
+			   .append("text")
+			   .text(function(d) {
+			   		return d;
+			   })
+			   .attr("text-anchor", "middle")
+			   .attr("x", function(d, i) {
+			   		return xScale(i) + xScale.bandwidth() / 2;
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale(d) + 14;
+			   })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "white");
+
+			
+			//On click update with new data
+
+			var animateDuration = 500;
+			d3.select("p")
+				.on("click", function() {
+
+					//Remove one piece of data
+					dataset.pop();
+				
+
+					//Update scale domains to new maxValue in dataset
+					xScale.domain(d3.range(dataset.length));
+					yScale.domain([0, d3.max(dataset)]);
+
+					//Select and update
+					var bars = svg.selectAll("rect")
+									.data(dataset);
+
+					//Using enter and merge to update selection
+					bars.enter()
+						.append("rect")
+						.attr("x", w)
+						.attr("y", function(d) {
+							return h - yScale(d);
+						})
+						.attr("width", xScale.bandwidth())
+						.attr("height", function(d) {
+							return yScale(d);
+						})
+						.attr("fill", function(d) {
+							return "rgb(0, 0, " + Math.round(d * 10) + ")";
+						})
+						.merge(bars) //update
+						.transition()
+						.duration(animateDuration)
+						.attr("x", function(d, i) {
+							return xScale(i);
+						})
+						.attr("y", function(d) {
+							return h - yScale(d);
+						})
+						.attr("width", xScale.bandwidth())
+						.attr("height", function(d) {
+							return yScale(d);
+						});
+
+					//Exit to remove selection
+					bars.exit()
+						.transition()
+						.duration(animateDuration)
+						.attr("x", w)   //Moves past the right edge of the SVG
+						.remove();
+
+
+					//update all labels
+					var labels = svg.selectAll("text")
+										.data(dataset);
+
+					//Using enter to create new label
+					labels.enter()
+							.append("text")
+							.text(function(d) {
+								return d;
+							})
+							.attr("text-anchor", "middle")
+							.attr("x", w)
+							.attr("y", function(d) {
+								return h - yScale(d) + 14;
+							})
+							.attr("font-family", "sans-serif")
+			   				.attr("font-size", "11px")
+			   				.attr("fill", "white")
+							.merge(labels)
+							.transition()
+							.duration(animateDuration)
+							.attr("x", function(d, i) {
+								return xScale(i) + xScale.bandwidth() / 2;
+							})
+							.attr("y", function(d) {
+								return h - yScale(d) + 14;
+							});
+
+					//Use exit to remove labels
+					labels.exit()
+							.transition()
+							.duration(animateDuration)
+							.attr("x", w)
+							.remove();
+
+				})
+
+
+			
+		</script>
+	</body>
+</html>

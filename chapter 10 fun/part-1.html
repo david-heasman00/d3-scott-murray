@@ -6,7 +6,6 @@
         <script type="text/javascript" src="d3.js"></script>
         <style type="text/css">
 
-
         </style>
     </head>
     <body>
@@ -81,7 +80,8 @@
                })
                .attr("font-family", "sans-serif")
                .attr("font-size", "11px")
-               .attr("fill", "white");
+               .attr("fill", "white")
+               .style("pointer-events", "none"); //Instead of setting as CSS, set CSS here to ignore pointer event, so that rectangles still hover when label is hovered over (label is in front of rectangle, so hover stops there)
             
         </script>
     </body>

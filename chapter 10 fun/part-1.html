@@ -87,12 +87,21 @@
                .attr("fill", "white")
                .style("pointer-events", "none"); //Instead of setting as CSS, set CSS here to ignore pointer event, so that rectangles still hover when label is hovered over (label is in front of rectangle, so hover stops there)
 
-            //Sort bars function
+
+
+            //Sort bars function by ascending and descending
+            var sortOrder = false;                      //Remembers current state of chart
             var sortBars = function() {
+
+                sortOrder = !sortOrder;                 //Flips sortorder
 
                 svg.selectAll("rect")
                     .sort(function(a, b) {
-                        return d3.ascending(a, b);
+                        if (sortOrder) {                //If sortOrder true make ascending
+                            return d3.ascending(a, b);
+                        } else {                        
+                            return d3.descending(a, b); //If sortOrder false make descending
+                        }
                     })
                     .transition("sortBars")
                     .duration(1000)
@@ -102,7 +111,11 @@
 
                   svg.selectAll("text")
                     .sort(function(a, b) {
-                        return d3.ascending(a, b);
+                        if (sortOrder) {                
+                            return d3.ascending(a, b);
+                        } else {                        
+                            return d3.descending(a, b); 
+                        }
                     })
                     .transition("sortLabels")
                     .duration(1000)

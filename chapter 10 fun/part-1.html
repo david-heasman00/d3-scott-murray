@@ -6,6 +6,19 @@
         <script type="text/javascript" src="d3.js"></script>
         <style type="text/css">
 
+            /* Restore hover effect as html so it doesn't interfere with sort transition */
+
+            rect:hover {
+                fill: orange;
+            }
+
+            rect {
+                -moz-transition: all 0.25s;
+                -o-transition: all 0.25s;
+                -webkit-transition: all 0.25s;
+                transition: all 0.25s;
+            }
+
         </style>
     </head>
     <body>
@@ -50,17 +63,6 @@
                })
                .attr("fill", function(d) {
                     return "rgb(0, 0, " + Math.round(d * 10) + ")";
-               })
-               //On hover change to orange and back to original value
-               .on("mouseover", function(d) {
-                    d3.select(this)
-                        .attr("fill", "orange");
-               })
-               .on("mouseout", function(d) {
-                    d3.select(this)
-                        .transition()
-                        .duration(250)
-                        .attr("fill", "rgb(0, 0, " + (d * 10) + ")");
                })
                //On click sort bars
                .on("click", function() {

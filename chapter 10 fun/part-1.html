@@ -58,7 +58,7 @@
                })
                .on("mouseout", function(d) {
                     d3.select(this)
-                        .transition()
+                        .transition("restoreBarColor")
                         .duration(250)
                         .attr("fill", "rgb(0, 0, " + (d * 10) + ")");
                })
@@ -94,12 +94,22 @@
                     .sort(function(a, b) {
                         return d3.ascending(a, b);
                     })
-                    .transition()
+                    .transition("sortBars")
                     .duration(1000)
                     .attr("x", function(d, i) {
                         return xScale(i);
                     })
-            }
+
+                  svg.selectAll("text")
+                    .sort(function(a, b) {
+                        return d3.ascending(a, b);
+                    })
+                    .transition("sortLabels")
+                    .duration(1000)
+                    .attr("x", function(d, i) {
+                        return xScale(i) + xScale.bandwidth() / 2;
+                    });
+            };
             
         </script>
     </body>

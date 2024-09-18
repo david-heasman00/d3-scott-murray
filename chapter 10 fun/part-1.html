@@ -104,6 +104,9 @@
                         }
                     })
                     .transition("sortBars")
+                    .delay(function(d, i) {             //Add delay to transition so we can see each bar move
+                        return i * 50;
+                    })
                     .duration(1000)
                     .attr("x", function(d, i) {
                         return xScale(i);
@@ -118,6 +121,9 @@
                         }
                     })
                     .transition("sortLabels")
+                    .delay(function(d, i) {              //Add delay 
+                        return i * 50;
+                    })
                     .duration(1000)
                     .attr("x", function(d, i) {
                         return xScale(i) + xScale.bandwidth() / 2;

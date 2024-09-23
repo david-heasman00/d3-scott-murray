@@ -55,11 +55,11 @@
 						.attr("width", w)
 						.attr("height", h);
 
-			//Define what to do when draggin
+			//Define what to do when dragging
 			var dragging = function(d) {
 
 				//Log out d3.event, so you can see all the goodies inside
-				//console.log(d3.event);
+				console.log(d3.event);
 
 				//Get the current (pre-dragging) translation offset
 				var offset = projection.translate();
@@ -93,6 +93,14 @@
 			var map = svg.append("g")
 						.attr("id", "map")
 						.call(drag); //Bind the dragging behaviour
+
+			//Create invisible background rect to catch drag events to deal with border drag problems
+			map.append("rect")
+				.attr("x", 0)
+				.attr("y", 0)
+				.attr("width", w)
+				.attr("height", h)
+				.attr("opacity", 0);
 
 
 

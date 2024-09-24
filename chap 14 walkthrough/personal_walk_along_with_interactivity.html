@@ -90,6 +90,8 @@
 
 			//Then define the drag behaviour
 			var zoom = d3.zoom()
+						.scaleExtent([0.2, 2.0])
+						.translateExtent([[ -1200, -700], [ 1200, 700 ]])
 						.on("zoom", zooming);
 
 			//The center of the country, roughly

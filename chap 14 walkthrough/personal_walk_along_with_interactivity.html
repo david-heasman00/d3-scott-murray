@@ -7,19 +7,23 @@
 		<style type="text/css">
 			
 			/* Give pan arrow blocks CSS styling */
-			.pan rect {
+			.pan rect,
+			.zoom rect {
 				fill: black;
 				opacity: 0.2;
 			}
 
-			.pan text {
+			.pan text,
+			.zoom text {
 				fill: black;
 				font-size: 18px;
 				text-anchor: middle;
 			}
 
 			.pan:hover rect,
-			.pan:hover text {
+			.pan:hover text,
+			.zoom:hover rect,
+			.zoom:hover text {
 				fill: blue;
 			}
 
@@ -35,8 +39,7 @@
 
 			//Define map projection
 			var projection = d3.geoAlbersUsa()
-							   .translate([w/2, h/2])
-							   .scale([2000]);
+							   .translate([0,0]);
 
 			//Define path generator
 			var path = d3.geoPath()
@@ -198,6 +201,7 @@
 							});
 
 						createPanButtons();
+						createZoomButtons();
 					});
 
 				});
@@ -245,7 +249,7 @@
 				//West
 				var west = svg.append("g")
 					.attr("class", "pan")
-					.attr("id", "east");
+					.attr("id", "west");
 
 				west.append("rect")
 					.attr("x", 0)
@@ -315,6 +319,74 @@
 					});
 			};
 			
+			//Create Zoom Buttons
+			var createZoomButtons = function() {
+
+				//Create clickable buttons
+
+				//Zoom In
+				var zoomIn = svg.append("g")
+					.attr("class", "zoom")
+					.attr("id", "in")
+					.attr("transform", "translate(" + (w-110) + "," + (h-70) + ")" );
+
+				zoomIn.append("rect")
+					.attr("x", 0)
+					.attr("y", 0)
+					.attr("width", 30)
+					.attr("height", 30);
+
+				zoomIn.append("text")
+					.attr("x", 15)
+					.attr("y", 20)
+					.text("+");
+
+				//Zoom Out
+				var zoomOut = svg.append("g")
+					.attr("class", "zoom")
+					.attr("id", "out")
+					.attr("transform", "translate(" + (w-70) + "," + (h-70) + ")");
+
+				zoomOut.append("rect")
+					.attr("x", 0)
+					.attr("y", 0)
+					.attr("width", 30)
+					.attr("height", 30);
+
+				zoomOut.append("text")
+					.attr("x", 15)
+					.attr("y", 20)
+					.html("&ndash;");
+
+				//Zoming interaction
+
+				d3.selectAll(".zoom")
+					.on("click", function() {
+
+						//Set how much to scale on each click
+						var scaleFactor;
+
+						//Which way to go
+						var direction = d3.select(this).attr("id");
+
+						//Modify the k scale value, depending on direction
+						switch (direction) {
+							case "in":
+								scaleFactor = 1.5;
+								break;
+							case "out":
+								scaleFactor = 0.75;
+								break;
+							default:
+								break;
+						}
+
+						//Call zoom event, scaling by scaleFactor
+						map.transition()
+							.call(zoom.scaleBy, scaleFactor);
+					})
+
+			};
 		</script>
 	</body>
 </html>
